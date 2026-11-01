@@ -1,0 +1,32 @@
+# WORKFLOW: the complete automated testing process.
+name: Run Tests
+
+# EVENT: (TRIGGER): what causes the workflow to run.
+on: [push]
+
+# JOBS: define the units of work performed by this workflow.
+jobs: 
+        # JOB: a named unit of work within a workflow.
+        test:
+            
+            # RUNNER: the virtual machine that executes this job
+            runs-on: ubuntu-latest
+
+            # STEPS: individual tasks performed by the job, either a shell command or action.
+            steps:
+
+                # ACTION: a reusable pre-packaged step built by someone else.
+                - uses: actions/checkout@v5
+
+                # ACTION
+                - uses: actions/setup-node@v5
+                  with: 
+                    node-version: "24"
+
+                # STEP: shell command
+                # Installs dependencies from package-lock.json
+                - run: npm ci --prefix js
+
+                # STEP
+                # Executes the Vitest test suite
+                - run: npm test --prefix js
