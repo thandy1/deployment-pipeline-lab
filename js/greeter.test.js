@@ -12,3 +12,9 @@ test("greet with empty string", () => {
 test("greet with null", () => {
   expect(greet(null)).toBe("Hello, stranger!");
 });
+// Temporary runtime compatibility test, Node 24 recognizes RegExp.escape() and should pass, Node 22 doesn't recognize it and show fail with TypeError.
+test("escapes special characters in regular expressions", () => {
+  const escaped = RegExp.escape("a.b");
+  expect(new RegExp(escaped).test("a.b")).toBe(true);
+  expect(new RegExp(escaped).test("axb")).toBe(false);
+});
